@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using SpacesReservation.API.DTOs;
 using SpacesReservation.API.Models;
 using SpacesReservation.API.Services.Interfaces;
+using SpacesReservation.API.Utils;
 
 namespace SpacesReservation.API.Controllers
 {
@@ -35,6 +37,16 @@ namespace SpacesReservation.API.Controllers
             
            // var uri = $"/api/productos/{nuevoProducto.Id}";
             return Created( "" ,new { message= "Registered" } );
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> login([FromBody] LoginRequestDTO request)
+        {
+            var user = new User() { Email=request.Email, Password=request.Password };
+            var token = this._userService.Login(user);
+            if (token is null) return Unauthorized(new { message = "Invalid credentials" });
+
+            return Ok( new { token=token.Result } );
         }
     }
 }

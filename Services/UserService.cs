@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SpacesReservation.API.Models;
 using SpacesReservation.API.Services.Interfaces;
+using SpacesReservation.API.Utils;
 
 namespace SpacesReservation.API.Services
 {
@@ -45,6 +48,18 @@ namespace SpacesReservation.API.Services
             {
                 return null;
             }
+        }
+    
+        public async Task<string> Login(User user)
+        {
+          
+            var userinDb = await this.GetUserByEmail(user!.Email!);
+            if (userinDb == null) return null;
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.Password, userinDb.Password);
+            if (!isValidPassword) return null;
+            string token = JwtUtils.GenerateJWT(userinDb);
+            return token;
+
         }
     }
 }

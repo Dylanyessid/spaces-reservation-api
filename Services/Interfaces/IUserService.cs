@@ -10,7 +10,8 @@ namespace SpacesReservation.API.Services.Interfaces
             IEnumerable<User> GetUsers();
             //User GetUserById(int id);
             Task CreateUser(User user);
-            Task<User> GetUserByEmail(string email  );
+            Task<string> Login(User user);
+            Task<User> GetUserByEmail(string email);
         
     }
 }
