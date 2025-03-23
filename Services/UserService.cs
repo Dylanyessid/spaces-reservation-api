@@ -56,7 +56,7 @@ namespace SpacesReservation.API.Services
             var userinDb = await this.GetUserByEmail(user!.Email!);
             if (userinDb == null) return null;
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.Password, userinDb.Password);
-            if (!isValidPassword) return null;
+            if(!isValidPassword) return null;
             string token = JwtUtils.GenerateJWT(userinDb);
             return token;
 

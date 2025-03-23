@@ -32,7 +32,7 @@ namespace SpacesReservation.API.Controllers
             string hashed = BCrypt.Net.BCrypt.HashPassword(request.Password);
             
             if (existingUser is not null) return BadRequest( new { message = "Existing User" });
-            User user = new() { Email = request.Email,Password = hashed};
+            User user = new() { Email = request.Email,Password = hashed, Role = "Basic"};
             await this._userService.CreateUser(user);
             
            // var uri = $"/api/productos/{nuevoProducto.Id}";

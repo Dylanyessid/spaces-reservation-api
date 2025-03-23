@@ -6,8 +6,10 @@ CREATE TABLE Users (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Email VARCHAR(255),
 	Password VARCHAR(MAX),
+	Role VARCHAR(50),
 	DeletedAt DATETIME2,
 );
+
 
 
 CREATE TABLE Profiles(

@@ -31,21 +31,21 @@ public partial class AppDbContext : DbContext
     {
         modelBuilder.Entity<Profile>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Profiles__3214EC07A577329B");
+            entity.HasKey(e => e.Id).HasName("PK__Profiles__3214EC0760A2CFA6");
 
-            entity.HasIndex(e => e.UserId, "UQ__Profiles__1788CC4D54E546FF").IsUnique();
+            entity.HasIndex(e => e.UserId, "UQ__Profiles__1788CC4D541B921B").IsUnique();
 
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
 
             entity.HasOne(d => d.User).WithOne(p => p.Profile)
                 .HasForeignKey<Profile>(d => d.UserId)
-                .HasConstraintName("FK__Profiles__UserId__4CA06362");
+                .HasConstraintName("FK__Profiles__UserId__5FB337D6");
         });
 
         modelBuilder.Entity<Reservation>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Reservat__3214EC070C6863C7");
+            entity.HasKey(e => e.Id).HasName("PK__Reservat__3214EC071CF5E226");
 
             entity.Property(e => e.EndDateTime).HasColumnType("datetime");
             entity.Property(e => e.StartDateTime).HasColumnType("datetime");
@@ -55,17 +55,17 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.Space).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.SpaceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Reservati__Space__5441852A");
+                .HasConstraintName("FK__Reservati__Space__6754599E");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Reservati__UserI__534D60F1");
+                .HasConstraintName("FK__Reservati__UserI__66603565");
         });
 
         modelBuilder.Entity<Space>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Spaces__3214EC07325A0B41");
+            entity.HasKey(e => e.Id).HasName("PK__Spaces__3214EC07452B2984");
 
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Image)
@@ -79,17 +79,20 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.Spaces)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Spaces__OwnerId__5070F446");
+                .HasConstraintName("FK__Spaces__OwnerId__6383C8BA");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC071A2FDDDB");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC0703AF43C8");
 
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Password).IsUnicode(false);
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
